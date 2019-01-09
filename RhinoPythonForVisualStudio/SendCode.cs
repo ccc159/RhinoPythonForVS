@@ -121,11 +121,13 @@ namespace RhinoPythonForVisualStudio
         /// <param name="e">Event args.</param>
         private void SendCodeToRhino(object sender, EventArgs e)
         {
+            // bypass the function if the code is running
             if (IsSending)
             {
                 Alert("Cannot send code.\nAn existing code is still running.");
                 return;
             }
+            // run in another thread to send the code
             System.Threading.Tasks.Task.Run(() =>
             {
                 // set running flag
@@ -231,9 +233,8 @@ namespace RhinoPythonForVisualStudio
         }
 
         /// <summary>
-        /// This function saves current solution before sending code, Return true when save is successful
+        /// This is a wrapper function to alert
         /// </summary>
-        /// <returns></returns>
         private void Alert(string message)
         {
             VsShellUtilities.ShowMessageBox(
@@ -245,6 +246,9 @@ namespace RhinoPythonForVisualStudio
                 OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
         }
 
+        /// <summary>
+        /// This function gets the RhinoPython OutputPane, if not, then create a new one.
+        /// </summary>
         private IVsOutputWindowPane GetOutputPane()
         {
             // get output window
