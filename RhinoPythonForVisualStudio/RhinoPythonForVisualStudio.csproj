@@ -52,6 +52,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResetEngine.cs" />
     <Compile Include="SendCode.cs" />
     <Compile Include="SendCodePackage.cs" />
   </ItemGroup>
@@ -68,6 +69,7 @@
     <VSCTCompile Include="SendCodePackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
+    <Content Include="Resources\ResetEngine.png" />
     <Content Include="Resources\SendCode.png" />
     <Content Include="Resources\SendCodePackage.ico" />
     <Content Include="stylesheet.css" />

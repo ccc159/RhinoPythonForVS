@@ -163,7 +163,7 @@ namespace RhinoPythonForVisualStudio
                 msgObject objMsg = new msgObject();
                 objMsg.filename = activeDocumentName;
                 objMsg.temp = isTempFile;
-                objMsg.reset = true;
+                objMsg.reset = ResetEngine.IsReset;
                 objMsg.run = true;
 
                 string sendingMessage = JsonConvert.SerializeObject(objMsg);

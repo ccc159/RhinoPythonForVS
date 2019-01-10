@@ -67,7 +67,9 @@ namespace RhinoPythonForVisualStudio
         protected override void Initialize()
         {
             SendCode.Initialize(this);
+            ResetEngine.Initialize(this);
             base.Initialize();
+            
         }
 
         #endregion

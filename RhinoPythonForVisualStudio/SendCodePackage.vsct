@@ -15,10 +15,10 @@
         defining some of the constants that we will use inside the file. -->
 
   <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
-  <Extern href="stdidcmd.h"/>
+  <Extern href="stdidcmd.h" />
 
   <!--This header contains the command ids for the menus provided by the shell. -->
-  <Extern href="vsshlids.h"/>
+  <Extern href="vsshlids.h" />
 
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
@@ -46,7 +46,10 @@
          must be a menu. -->
     <Groups>
       <Group guid="guidSendCodePackageCmdSet" id="RhinoPythonGroup" priority="0x0600">
-        <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonMenu"/>
+        <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonMenu" />
+      </Group>
+      <Group guid="guidSendCodePackageCmdSet1" id="SettingsGroup" priority="0x0600">
+        <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonMenu" />
       </Group>
     </Groups>
 
@@ -67,6 +70,12 @@
           <ButtonText>SendCode</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidSendCodePackageCmdSet1" id="ResetEngineId" priority="0x0100" type="Button">
+        <Parent guid="guidSendCodePackageCmdSet1" id="SettingsGroup" />
+        <Strings>
+          <ButtonText>ResetEngine</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -76,7 +85,8 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\SendCode.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
+      <Bitmap guid="guidImages" href="Resources\SendCode.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages1" href="Resources\ResetEngine.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
     </Bitmaps>
   </Commands>
 
@@ -90,12 +100,26 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidSendCodePackageCmdSet" value="{14cdd510-7d18-400c-b709-7dd8d532a781}">
-      <IDSymbol name="RhinoPythonMenu" value="0x1021"/>
+      <IDSymbol name="RhinoPythonMenu" value="0x1021" />
       <IDSymbol name="RhinoPythonGroup" value="0x1020" />
       <IDSymbol name="SendCodeId" value="0x0100" />
     </GuidSymbol>
 
-    <GuidSymbol name="guidImages" value="{ccc6a0c6-8cb2-49b3-a340-2b9e0b9754c1}" >
+    <GuidSymbol name="guidImages" value="{ccc6a0c6-8cb2-49b3-a340-2b9e0b9754c1}">
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+      <IDSymbol name="bmpPicSearch" value="3" />
+      <IDSymbol name="bmpPicX" value="4" />
+      <IDSymbol name="bmpPicArrows" value="5" />
+      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    </GuidSymbol>
+  
+    <GuidSymbol value="{c034f9ac-3235-4977-a019-2d31cdcbc766}" name="guidSendCodePackageCmdSet1">
+      <IDSymbol value="4128" name="SettingsGroup" />
+      <IDSymbol value="256" name="ResetEngineId" />
+    </GuidSymbol>
+  
+    <GuidSymbol value="{3b102323-ead8-49e8-9532-75b0c833342f}" name="guidImages1">
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />
