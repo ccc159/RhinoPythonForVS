@@ -54,9 +54,8 @@
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidSendCodePackageCmdSet" id="SendCodeId" priority="0x0100" type="Button">
         <Parent guid="guidSendCodePackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke SendCode</ButtonText>
+          <ButtonText>SendCode</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -71,6 +70,10 @@
       <Bitmap guid="guidImages" href="Resources\SendCode.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
     </Bitmaps>
   </Commands>
+
+  <KeyBindings>
+    <KeyBinding guid="guidSendCodePackageCmdSet" id="SendCodeId" editor="guidVSStd97" key1="VK_F2" mod1="Shift" />
+  </KeyBindings>
 
   <Symbols>
     <!-- This is the package guid. -->

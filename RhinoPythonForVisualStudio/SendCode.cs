@@ -139,6 +139,7 @@ namespace RhinoPythonForVisualStudio
                 {
                     string message = "Cannot init RhinoPython extension.\nTry to restart visual studio.";
                     Alert(message);
+                    IsSending = false;
                     return;
                 }
                 // save all the documents
@@ -150,6 +151,7 @@ namespace RhinoPythonForVisualStudio
                 {
                     string message = "Cannot read current document.\nMake sure you have the code opening.";
                     Alert(message);
+                    IsSending = false;
                     return;
                 }
                 var activeDocumentName = dte.ActiveDocument.FullName;
