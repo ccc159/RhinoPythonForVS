@@ -23,7 +23,16 @@
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
   <Commands package="guidSendCodePackage">
-    <!-- Inside this section we have different sub-sections: one for the menus, another
+    <Menus>
+      <Menu guid="guidSendCodePackageCmdSet" id="RhinoPythonMenu" priority="0x700" type="Menu">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
+        <Strings>
+          <ButtonText>RhinoPython</ButtonText>
+          <CommandName>RhinoPython</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
+    <!-- Inside this section we have different sub-sections: one for thRhinoPythonGroupe menus, another
     for the menu groups, one for the buttons (the actual commands), one for the combos
     and the last one for the bitmaps used. Each element is identified by a command id that
     is a unique pair of guid and numeric identifier; the guid part of the identifier is usually
@@ -36,8 +45,8 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidSendCodePackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      <Group guid="guidSendCodePackageCmdSet" id="RhinoPythonGroup" priority="0x0600">
+        <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonMenu"/>
       </Group>
     </Groups>
 
@@ -53,7 +62,7 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidSendCodePackageCmdSet" id="SendCodeId" priority="0x0100" type="Button">
-        <Parent guid="guidSendCodePackageCmdSet" id="MyMenuGroup" />
+        <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonGroup" />
         <Strings>
           <ButtonText>SendCode</ButtonText>
         </Strings>
@@ -81,7 +90,8 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidSendCodePackageCmdSet" value="{14cdd510-7d18-400c-b709-7dd8d532a781}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="RhinoPythonMenu" value="0x1021"/>
+      <IDSymbol name="RhinoPythonGroup" value="0x1020" />
       <IDSymbol name="SendCodeId" value="0x0100" />
     </GuidSymbol>
 
