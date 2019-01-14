@@ -52,7 +52,6 @@ namespace RhinoPythonForVisualStudio
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
                 var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
-                menuItem.Checked = IsReset;
                 commandService.AddCommand(menuItem);
             }
         }
@@ -84,8 +83,10 @@ namespace RhinoPythonForVisualStudio
         public static void Initialize(Package package)
         {
             Instance = new ResetEngine(package);
+            Instance.SetChecked();
         }
 
+        
         /// <summary>
         /// This function is the callback used to execute the command when the menu item is clicked.
         /// See the constructor to see how the menu item is associated with this function using
@@ -96,10 +97,16 @@ namespace RhinoPythonForVisualStudio
         private void MenuItemCallback(object sender, EventArgs e)
         {
             IsReset = !IsReset;
+            SetChecked();
+        }
+
+        internal void SetChecked()
+        {
             IMenuCommandService mcs = (IMenuCommandService)this.ServiceProvider.
                 GetService(typeof(IMenuCommandService));
             var command = mcs.FindCommand(new CommandID(CommandSet, CommandId));
             command.Checked = IsReset;
         }
+
     }
 }
