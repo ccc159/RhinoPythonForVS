@@ -35,7 +35,7 @@ This is the client side of RhinoPython editor. To bridge it to Rhino you need a 
 
 + Start Rhino, type command `CodeListener`
 + Start Visual Studio, create a new **IronPython Application** project.
-+ Right click on **Search Paths** In **Solution Explorer** and add folder to the path if you want to add extra library, e.g. our **D2P library** folder
++ Right click on **Search Paths** In **Solution Explorer** and add folder to the path if you want to add extra library.
 + When finished coding, click **RhinoPython -> SendCode** or **Shift + F2** to run code in Rhino.
 
 
