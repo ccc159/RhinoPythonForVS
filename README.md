@@ -9,7 +9,7 @@ It is a **[DesignToProduction](http://designtoproduction.com/)** open source pro
 
 ## Features
 
-**Super powerful IntelliSense** in realtime. **Much faster** an responsive than the 
+**Super powerful IntelliSense** in realtime. **Much faster** and responsive than the 
 [VS Code Demo](https://www.youtube.com/watch?v=QbmnKFIKBYs&feature=youtu.be) 
 
 ## Requirements
