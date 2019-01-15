@@ -68,6 +68,10 @@
     <VSCTCompile Include="SendCodePackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
+    <Content Include="logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\ResetEngine.png" />
     <Content Include="Resources\SendCode.png" />
     <Content Include="Resources\SendCodePackage.ico" />
