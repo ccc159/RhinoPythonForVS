@@ -36,7 +36,8 @@ This is the client side of RhinoPython editor. To bridge it to Rhino you need a 
 + Start Rhino, type command `CodeListener`
 + Start Visual Studio, create a new **IronPython Application** project.
 + Right click on **Search Paths** In **Solution Explorer** and add folder to the path if you want to add extra library.
-+ When finished coding, click **RhinoPython -> SendCode** or **Shift + F2** to run code in Rhino.
++ When finished coding, click **RhinoPython -> SendCode/SendCodeWithoutReset** or **Shift + F2** to run code in Rhino.
++ Feel free if you want to [custom you own shortcut for the commands](https://docs.microsoft.com/en-us/visualstudio/ide/identifying-and-customizing-keyboard-shortcuts-in-visual-studio?view=vs-2017).
 
 
 
