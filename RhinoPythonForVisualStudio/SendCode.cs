@@ -38,9 +38,14 @@ namespace RhinoPythonForVisualStudio
     internal sealed class SendCode
     {
         /// <summary>
-        /// Command ID.
+        /// Command Send Code ID.
         /// </summary>
-        public const int CommandId = 0x0100;
+        public const int CommandSendCodeID = 0x0100;
+
+        /// <summary>
+        /// Command Send Code Without Reset ID.
+        /// </summary>
+        public const int CommandSendCodeWRID = 0x0101;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -77,9 +82,14 @@ namespace RhinoPythonForVisualStudio
             OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
             {
-                var menuCommandID = new CommandID(CommandSet, CommandId);
-                var menuItem = new MenuCommand(this.SendCodeToRhino, menuCommandID);
-                commandService.AddCommand(menuItem);
+                // SendCode
+                var menuCommandSendCodeID = new CommandID(CommandSet, CommandSendCodeID);
+                var menuItemSendCode = new MenuCommand( (sender, args) => SendCodeToRhino(sender,true), menuCommandSendCodeID);
+                commandService.AddCommand(menuItemSendCode);
+                // SendCodeWithoutReset
+                var menuCommandSendCodeWRID = new CommandID(CommandSet, CommandSendCodeWRID);
+                var menuItemSendCodeWR = new MenuCommand((sender, args) => SendCodeToRhino(sender, false), menuCommandSendCodeWRID);
+                commandService.AddCommand(menuItemSendCodeWR);
             }
         }
 
@@ -119,7 +129,7 @@ namespace RhinoPythonForVisualStudio
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
-        private void SendCodeToRhino(object sender, EventArgs e)
+        private void SendCodeToRhino(object sender, bool resetEngine)
         {
             // bypass the function if the code is running
             if (IsSending)
@@ -163,7 +173,7 @@ namespace RhinoPythonForVisualStudio
                 msgObject objMsg = new msgObject();
                 objMsg.filename = activeDocumentName;
                 objMsg.temp = isTempFile;
-                objMsg.reset = ResetEngine.IsReset;
+                objMsg.reset = resetEngine;
                 objMsg.run = true;
 
                 string sendingMessage = JsonConvert.SerializeObject(objMsg);
@@ -180,7 +190,7 @@ namespace RhinoPythonForVisualStudio
                 try
                 {
                     TcpClient client = new TcpClient(serverIp, portNo);
-
+                  
                     // Get a client stream for reading and writing.
                     NetworkStream stream = client.GetStream();
 
@@ -217,13 +227,16 @@ namespace RhinoPythonForVisualStudio
                     stream.Close();
                     client.Close();
                 }
-                catch (ArgumentNullException ex)
-                {
-                    Alert(ex.Message);
-                }
+                
                 catch (SocketException ex)
                 {
-                    Console.WriteLine("Cannot connect Rhino. Please make sure Rhino is running CodeListener.");
+                    Alert("Cannot connect Rhino.\nPlease make sure Rhino is running CodeListener.");
+                    outputPane.OutputString("Failed:\n" + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    Alert("Unexpected Error.\\Please see the error message in the output panel.");
+                    outputPane.OutputString("Failed:\n" + ex.Message);
                 }
                 finally
                 {

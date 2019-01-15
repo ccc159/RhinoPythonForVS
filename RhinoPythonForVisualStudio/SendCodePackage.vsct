@@ -48,9 +48,6 @@
       <Group guid="guidSendCodePackageCmdSet" id="RhinoPythonGroup" priority="0x0600">
         <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonMenu" />
       </Group>
-      <Group guid="guidSendCodePackageCmdSet1" id="SettingsGroup" priority="0x0600">
-        <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonMenu" />
-      </Group>
     </Groups>
 
     <!--Buttons section. -->
@@ -70,10 +67,10 @@
           <ButtonText>SendCode</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidSendCodePackageCmdSet1" id="ResetEngineId" priority="0x0100" type="Button">
-        <Parent guid="guidSendCodePackageCmdSet1" id="SettingsGroup" />
+      <Button guid="guidSendCodePackageCmdSet" id="SendCodeWRId" priority="0x0101" type="Button">
+        <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonGroup" />
         <Strings>
-          <ButtonText>ResetEngine</ButtonText>
+          <ButtonText>SendCodeWithoutReset</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -91,6 +88,7 @@
 
   <KeyBindings>
     <KeyBinding guid="guidSendCodePackageCmdSet" id="SendCodeId" editor="guidVSStd97" key1="VK_F2" mod1="Shift" />
+    <KeyBinding guid="guidSendCodePackageCmdSet" id="SendCodeWRId" editor="guidVSStd97" key1="VK_F2" mod1="Control" />
   </KeyBindings>
 
   <Symbols>
@@ -102,6 +100,7 @@
       <IDSymbol name="RhinoPythonMenu" value="0x1021" />
       <IDSymbol name="RhinoPythonGroup" value="0x1020" />
       <IDSymbol name="SendCodeId" value="0x0100" />
+      <IDSymbol name="SendCodeWRId" value="0x0101" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{ccc6a0c6-8cb2-49b3-a340-2b9e0b9754c1}">
@@ -113,10 +112,6 @@
       <IDSymbol name="bmpPicStrikethrough" value="6" />
     </GuidSymbol>
   
-    <GuidSymbol value="{c034f9ac-3235-4977-a019-2d31cdcbc766}" name="guidSendCodePackageCmdSet1">
-      <IDSymbol value="4128" name="SettingsGroup" />
-      <IDSymbol value="256" name="ResetEngineId" />
-    </GuidSymbol>
  
   </Symbols>
 </CommandTable>
