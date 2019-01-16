@@ -19,11 +19,11 @@ This is the client side of RhinoPython editor. To bridge it to Rhino you need a 
 ## Installation
 
 
-+ Make sure you have **[IronPyton 2.7.5](https://github.com/IronLanguages/main/releases/tag/ipy-2.7.5)** installed. Note: The latest version 2.7.9 is buggy, tested by author.
++ Make sure you have **[IronPyton 2.7.5](https://github.com/IronLanguages/main/releases/tag/ipy-2.7.5)** installed (.msi file). Note: The latest version 2.7.9 is buggy, tested by author.
 + Make sure you have **Visual Studio 2015** installed. Note: VS2017, VS2019 are not tested yet.
 + Make sure you have **[PTVS(Python Tools for Visual Studio)](https://docs.microsoft.com/en-us/visualstudio/python/installing-python-support-in-visual-studio?view=vs-2017#visual-studio-2015)** installed.
 + Make sure you have **CodeListener** plugin for Rhino in [CodeListener latest release](https://github.com/ccc159/CodeListener/releases) installed. Note: You have to download the **CodeListener.rhi** file for the first time installation.
-+ Install latest **[RhinoPythonForVisualStudio.vsix](https://github.com/ccc159/RhinoPythonForVS/releases)**
++ Install latest **RhinoPythonForVisualStudio** from **[VisualStudio Market Place](https://marketplace.visualstudio.com/items?itemName=jingchengchen.RhinoPythonForVisualStudio)** or **[Github](https://github.com/ccc159/RhinoPythonForVS/releases)**
 
 ## Preparation
 + Copy desired **.dll** libraries under `C:\Program Files (x86)\IronPython 2.7\DLLs` folder. *e.g.* Copy **RhinoCommon.dll** from `C:\Program Files\Rhinoceros 5 (64-bit)\System\` and **System.Drawings.dll** from `C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\XXX`
