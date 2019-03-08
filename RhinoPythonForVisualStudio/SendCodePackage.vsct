@@ -73,6 +73,12 @@
           <ButtonText>SendCodeWithoutReset</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidSendCodePackageCmdSet" id="ImportManagerId" priority="0x0102" type="Button">
+        <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonGroup" />
+        <Strings>
+          <ButtonText>ImportManager</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -101,6 +107,7 @@
       <IDSymbol name="RhinoPythonGroup" value="0x1020" />
       <IDSymbol name="SendCodeId" value="0x0100" />
       <IDSymbol name="SendCodeWRId" value="0x0101" />
+      <IDSymbol name="ImportManagerId" value="0x0102" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{ccc6a0c6-8cb2-49b3-a340-2b9e0b9754c1}">

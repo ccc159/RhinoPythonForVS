@@ -48,6 +48,11 @@ namespace RhinoPythonForVisualStudio
         public const int CommandSendCodeWRID = 0x0101;
 
         /// <summary>
+        /// Command Import Manager ID.
+        /// </summary>
+        public const int CommandImportManagerID = 0x0102;
+
+        /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
         public static readonly Guid CommandSet = new Guid("14cdd510-7d18-400c-b709-7dd8d532a781");
@@ -90,6 +95,10 @@ namespace RhinoPythonForVisualStudio
                 var menuCommandSendCodeWRID = new CommandID(CommandSet, CommandSendCodeWRID);
                 var menuItemSendCodeWR = new MenuCommand((sender, args) => SendCodeToRhino(sender, false), menuCommandSendCodeWRID);
                 commandService.AddCommand(menuItemSendCodeWR);
+                // Open ImportManager dialog
+                var menuCommandImportManagerID = new CommandID(CommandSet, CommandImportManagerID);
+                var menuItemImportManager = new MenuCommand((sender, args) => OpenImportManagerDialog(), menuCommandImportManagerID);
+                commandService.AddCommand(menuItemImportManager);
             }
         }
 
@@ -245,6 +254,16 @@ namespace RhinoPythonForVisualStudio
                 }
             });
             
+        }
+
+
+        /// <summary>
+        /// This opens the import manager
+        /// </summary>
+        private void OpenImportManagerDialog()
+        {
+            ImportManager manager = new ImportManager();
+            manager.Show();
         }
 
         /// <summary>
