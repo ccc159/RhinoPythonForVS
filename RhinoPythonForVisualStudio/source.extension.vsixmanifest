@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="RhinoPythonForVisualStudio.Jingcheng CHEN.18c39bae-ecd1-479b-acc8-1a5fa2a9d937" Version="0.0.2" Language="en-US" Publisher="Jingcheng Chen" />
+    <Identity Id="RhinoPythonForVisualStudio.Jingcheng CHEN.18c39bae-ecd1-479b-acc8-1a5fa2a9d937" Version="0.0.3" Language="en-US" Publisher="Jingcheng Chen" />
     <DisplayName>RhinoPythonForVisualStudio</DisplayName>
     <Description xml:space="preserve">RhinoPythonForVisualStudio allows you to code RhinoPython in Visual Studio.
 </Description>
@@ -17,5 +17,6 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\RhinoPythonApplication.zip" />
   </Assets>
 </PackageManifest>
