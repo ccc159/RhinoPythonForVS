@@ -26,18 +26,28 @@ This is the client side of RhinoPython editor. To bridge it to Rhino you need a 
 + Install latest **RhinoPythonForVisualStudio** from **[VisualStudio Market Place](https://marketplace.visualstudio.com/items?itemName=jingchengchen.RhinoPythonForVisualStudio)** or **[Github](https://github.com/ccc159/RhinoPythonForVS/releases)**
 
 ## Preparation
+### OBSOLETE (No need to prepare this from Version 0.0.3)
 + Copy desired **.dll** libraries under `C:\Program Files (x86)\IronPython 2.7\DLLs` folder. *e.g.* Copy **RhinoCommon.dll** from `C:\Program Files\Rhinoceros 5 (64-bit)\System\` and **System.Drawings.dll** from `C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\XXX`
 + Copy **all files** from `C:\Users\jch\AppData\Roaming\McNeel\Rhinoceros\5.0\Plug-ins\IronPython (814d908a-e25c-493d-97e9-ee3861957f49)\settings\lib` into `C:\Program Files (x86)\IronPython 2.7\Lib\` folder. Note: the **site-packages** folder seems can't invoke intellisense, tested only by author.
 + Start Visual Studio, click **Tools -> Python Tools -> Python Environments**, from the *Python Environments* window on the right side, select **IronPython 2.7**, switch from **Overview** to **IntelliSense**, click **Refresh DB**
 
 
+
 ## Usage
 
+### OBSOLETE (<Version 0.0.3)
 + Start Rhino, type command `CodeListener`
 + Start Visual Studio, create a new **IronPython Application** project.
 + Right click on **Search Paths** In **Solution Explorer** and add folder to the path if you want to add extra library.
 + When finished coding, click **RhinoPython -> SendCode/SendCodeWithoutReset** or **Shift + F2** to run code in Rhino.
 + Feel free if you want to [custom you own shortcut for the commands](https://docs.microsoft.com/en-us/visualstudio/ide/identifying-and-customizing-keyboard-shortcuts-in-visual-studio?view=vs-2017).
+
+### from Version 0.0.3
++ Start Rhino, type command `CodeListener`
++ Start Visual Studio, create a new **RhinoPythonApplication** project under **Python**.
++ Click **RhinoPython -> ImportManager**, here you can set python lib path, and check referenced DLL. (see help on that window)
++ Remember to `Reload Project` from **ImportManager** after first init of project or changed module search paths.
++ When finished coding, click **RhinoPython -> SendCode/SendCodeWithoutReset** or **Shift + F2** to run code in Rhino.
 
 
 
