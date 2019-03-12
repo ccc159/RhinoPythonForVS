@@ -7,8 +7,12 @@
 using System;
 using System.ComponentModel.Design;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net.Mime;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
+using System.Windows.Forms;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -69,6 +73,8 @@ namespace RhinoPythonForVisualStudio
         /// VS Package that provides this command, not null.
         /// </summary>
         private readonly Package package;
+
+        private ImportManager manager = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SendCode"/> class.
@@ -174,6 +180,13 @@ namespace RhinoPythonForVisualStudio
                     return;
                 }
                 var activeDocumentName = dte.ActiveDocument.FullName;
+                if (activeDocumentName.Contains(" "))
+                {
+                    string message = "Your project path contains space which leads to execution bug.\nPlease close your project and move it to a space-free directory.";
+                    Alert(message);
+                    IsSending = false;
+                    return;
+                }
                 // check if the file is temp file by checking the if the path of file is inside temp folder
                 var tempPath = System.IO.Path.GetTempPath();
                 var activeDocumentPath = dte.ActiveDocument.Path;
@@ -262,8 +275,43 @@ namespace RhinoPythonForVisualStudio
         /// </summary>
         private void OpenImportManagerDialog()
         {
-            ImportManager manager = new ImportManager();
-            manager.Show();
+            // if there is a manager, show it.
+            if (manager != null && !manager.IsDisposed)
+            {
+                manager.Show();
+                manager.Focus();
+                return;
+            }
+            // get the top level vs instance object
+            var dte = this.ServiceProvider.GetService(typeof(_DTE)) as _DTE;
+            var projects = dte?.Solution.Projects;
+            if (projects?.Count > 0)
+            {
+                // get current project path
+                Project activeProject = projects.Item(1);
+
+                // project full path
+                var projectName = activeProject.FullName;
+
+                // update project file
+                ProjectFileEditor.EditProjectFile(projectName);
+
+                // run import manager
+                try
+                {
+                    manager = new ImportManager(Path.GetDirectoryName(projectName), dte);
+                    manager.Show();
+                }
+                catch (Exception e)
+                {
+                    Alert("Fatal Error: " + e.Message);
+                }
+                
+            }
+            else
+            {
+                Alert("No active project detected.");
+            }
         }
 
         /// <summary>
@@ -275,7 +323,7 @@ namespace RhinoPythonForVisualStudio
                 this.ServiceProvider,
                 message,
                 "",
-                OLEMSGICON.OLEMSGICON_CRITICAL,
+                OLEMSGICON.OLEMSGICON_NOICON,
                 OLEMSGBUTTON.OLEMSGBUTTON_OK,
                 OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
         }
