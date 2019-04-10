@@ -180,13 +180,6 @@ namespace RhinoPythonForVisualStudio
                     return;
                 }
                 var activeDocumentName = dte.ActiveDocument.FullName;
-                if (activeDocumentName.Contains(" "))
-                {
-                    string message = "Your project path contains space which leads to execution bug.\nPlease close your project and move it to a space-free directory.";
-                    Alert(message);
-                    IsSending = false;
-                    return;
-                }
                 // check if the file is temp file by checking the if the path of file is inside temp folder
                 var tempPath = System.IO.Path.GetTempPath();
                 var activeDocumentPath = dte.ActiveDocument.Path;
