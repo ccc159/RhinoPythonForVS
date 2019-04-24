@@ -48,6 +48,9 @@
       <Group guid="guidSendCodePackageCmdSet" id="RhinoPythonGroup" priority="0x0600">
         <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonMenu" />
       </Group>
+      <Group guid="guidSendCodePackageContextSet" id="EditorContextMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+      </Group>
     </Groups>
 
     <!--Buttons section. -->
@@ -79,6 +82,12 @@
           <ButtonText>ImportManager</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidSendCodePackageContextSet" id="RunFunctionId" priority="0x0100" type="Button">
+        <Parent guid="guidSendCodePackageContextSet" id="EditorContextMenuGroup" />
+        <Strings>
+          <ButtonText>Run Function In Rhino</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -88,7 +97,7 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\SendCode.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+     
     </Bitmaps>
   </Commands>
 
@@ -110,15 +119,9 @@
       <IDSymbol name="ImportManagerId" value="0x0102" />
     </GuidSymbol>
 
-    <GuidSymbol name="guidImages" value="{ccc6a0c6-8cb2-49b3-a340-2b9e0b9754c1}">
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    <GuidSymbol value="{16554048-73ad-4f0d-921a-d42c45514a41}" name="guidSendCodePackageContextSet">
+      <IDSymbol value="4128" name="EditorContextMenuGroup" />
+      <IDSymbol value="256" name="RunFunctionId" />
     </GuidSymbol>
-  
- 
   </Symbols>
 </CommandTable>

@@ -68,6 +68,7 @@ namespace RhinoPythonForVisualStudio
         {
             SendCode.Initialize(this);
             base.Initialize();
+            RunFunctionCommand.Initialize(this);
             
         }
 
