@@ -86,13 +86,13 @@
       <Button guid="guidSendCodePackageContextSet" id="RunFunctionId" priority="0x0100" type="Button">
         <Parent guid="guidSendCodePackageContextSet" id="EditorContextMenuGroup" />
         <Strings>
-          <ButtonText>Run Function In Rhino (Beta)</ButtonText>
+          <ButtonText>Run Function In Rhino</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidSendCodePackageContextSet" id="PrintPropertyId" priority="0x0100" type="Button">
         <Parent guid="guidSendCodePackageContextSet" id="EditorContextMenuGroup" />
         <Strings>
-          <ButtonText>Print Property In Rhino (Beta)</ButtonText>
+          <ButtonText>Print Property In Rhino</ButtonText>
         </Strings>
       </Button>
     </Buttons>

@@ -50,6 +50,8 @@ namespace RhinoPythonForVisualStudio
         /// </summary>
         public static bool IsSending = false;
 
+        private bool isOldPropertySyntax = false;
+
         /// <summary>
         /// Output Pane GUID.
         /// </summary>
@@ -126,7 +128,7 @@ namespace RhinoPythonForVisualStudio
         private void RunFunctionCallback(object sender, bool isProperty)
         {
             // get function name, class name, class path
-            var funcName = GetFunctionName();
+            var funcName = GetFunctionName(isProperty);
             if (funcName == null) return;
             var className = GetClassName();
             if (className == null) return;
@@ -176,8 +178,10 @@ namespace RhinoPythonForVisualStudio
         /// Return current function name at the right click point
         /// </summary>
         /// <returns></returns>
-        internal string GetFunctionName()
+        internal string GetFunctionName(bool isProperty)
         {
+            // set old property syntax default to false
+            isOldPropertySyntax = false;
             // get the top level vs instance object
             var dte = this.ServiceProvider.GetService(typeof(_DTE)) as _DTE;
 
@@ -202,13 +206,26 @@ namespace RhinoPythonForVisualStudio
                 text += selection.Text.Trim();
             }
 
-            // get function name if it matches the pattern, otherwise null
-            var funcName = matchFunctionPatternName(text);
-            if (funcName == null) Alert("This is not a valid python function");
             selection.GotoLine(initLineIndex);
 
+            // get function name if it matches the pattern, otherwise null
+            var funcName = matchFunctionPatternName(text);
+            if (funcName == null)
+            {
+                if (isProperty) funcName = matchProperyPatternName(text);
+                if (funcName == null)
+                {
+                    Alert($"This is not a valid python {(isProperty ? "property" : "function")}");
+                    return null;
+                }
+            }
+
             // check function parameters
-            if (CheckExtraParams(text)) return null;
+            if (!isOldPropertySyntax)
+            {
+                if (CheckExtraParams(text)) return null;
+            }
+            
 
             return funcName;
             
@@ -236,6 +253,26 @@ namespace RhinoPythonForVisualStudio
             var funcName = value.Remove(value.Length - 1).Remove(0, 3).Trim();
 
             return funcName;
+        }
+
+        internal string matchProperyPatternName(string text)
+        {
+            Regex rx = new Regex(@"\w+\s*=\s*property\(", RegexOptions.Compiled);
+            // Find matches.
+            MatchCollection matches = rx.Matches(text);
+            if (matches.Count == 0)
+            {
+                return null;
+            }
+            // set old property syntax flag to true
+            isOldPropertySyntax = true;
+            // get property name
+            rx = new Regex(@"\w+\s*=", RegexOptions.Compiled);
+            matches = rx.Matches(text);
+            var value = matches[0].Groups[0].Value;
+            var propName = value.Remove(value.Length - 1).Trim();
+
+            return propName;
         }
 
         /// <summary>
@@ -275,7 +312,7 @@ namespace RhinoPythonForVisualStudio
             var extraParams = parameters.Where(p => !p.Contains("=")).ToList();
             if (extraParams.Count <= 0) return false;
             Alert(
-                $" Run Function only support optional parameters.\n\n{string.Join(",", extraParams)} don't have default values.");
+                $"Run Function only support optional parameters.\n\n[{string.Join(",", extraParams).Trim()}] don't have default values.");
             return true;
 
         }
