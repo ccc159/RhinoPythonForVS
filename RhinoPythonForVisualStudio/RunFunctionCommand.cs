@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,9 +26,14 @@ namespace RhinoPythonForVisualStudio
     internal sealed class RunFunctionCommand
     {
         /// <summary>
-        /// Command ID.
+        /// Command Run function ID.
         /// </summary>
-        public const int CommandId = 256;
+        public const int CommandRunFunctionId = 256;
+
+        /// <summary>
+        /// Command Print Property ID.
+        /// </summary>
+        public const int CommandPrintPropertyId = 257;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -69,9 +75,15 @@ namespace RhinoPythonForVisualStudio
             OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
             {
-                var menuCommandID = new CommandID(CommandSet, CommandId);
-                var menuItem = new MenuCommand(this.RunFunctionCallback, menuCommandID);
-                commandService.AddCommand(menuItem);
+                // run function
+                var menuCommandRunFunctionID = new CommandID(CommandSet, CommandRunFunctionId);
+                var menuRunFunctionItem = new MenuCommand((sender, args) => RunFunctionCallback(sender, false), menuCommandRunFunctionID);
+                commandService.AddCommand(menuRunFunctionItem);
+                // print property
+                var menuCommandPrintPropertyID = new CommandID(CommandSet, CommandPrintPropertyId);
+                var menuPrintPropertyItem = new MenuCommand((sender, args) => RunFunctionCallback(sender, true), menuCommandPrintPropertyID);
+                commandService.AddCommand(menuPrintPropertyItem);
+
             }
         }
 
@@ -111,7 +123,7 @@ namespace RhinoPythonForVisualStudio
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
-        private void RunFunctionCallback(object sender, EventArgs e)
+        private void RunFunctionCallback(object sender, bool isProperty)
         {
             // get function name, class name, class path
             var funcName = GetFunctionName();
@@ -119,12 +131,24 @@ namespace RhinoPythonForVisualStudio
             var className = GetClassName();
             if (className == null) return;
             var classPath = GetClassPath();
+            string pythonTemplate;
 
-            // prepare python file
-            var pythonTemplate = PythonTemplate.RunFunctionTemplate
-                .Replace("CLASSPATH", classPath)
-                .Replace("CLASSNAME", className)
-                .Replace("FUNCTIONNAME", funcName);
+            // print property
+            if (isProperty)
+            {
+                pythonTemplate = PythonTemplate.PrintProertyTemplate
+                    .Replace("CLASSPATH", classPath)
+                    .Replace("CLASSNAME", className)
+                    .Replace("FUNCTIONNAME", funcName);
+            }
+            // run function
+            else
+            {
+                pythonTemplate = PythonTemplate.RunFunctionTemplate
+                    .Replace("CLASSPATH", classPath)
+                    .Replace("CLASSNAME", className)
+                    .Replace("FUNCTIONNAME", funcName);
+            }
 
             // save python file to root folder of the project
             saveTempFile(pythonTemplate);
@@ -182,7 +206,12 @@ namespace RhinoPythonForVisualStudio
             var funcName = matchFunctionPatternName(text);
             if (funcName == null) Alert("This is not a valid python function");
             selection.GotoLine(initLineIndex);
+
+            // check function parameters
+            if (CheckExtraParams(text)) return null;
+
             return funcName;
+            
         }
 
         /// <summary>
@@ -230,6 +259,25 @@ namespace RhinoPythonForVisualStudio
             var className = value.Remove(value.Length - 1).Remove(0, 5).Trim();
 
             return className;
+        }
+
+        internal bool CheckExtraParams(string text)
+        {
+            var rx = new Regex(@"\(.*\)", RegexOptions.Compiled);
+            var matches = rx.Matches(text);
+            var value = matches[0].Groups[0].Value;
+            // remove brackets
+            value = value.Remove(value.Length - 1, 1).Remove(0, 1);
+            var splits = value.Split(',');
+            var parameters = splits.ToList();
+            parameters.RemoveAt(0);
+
+            var extraParams = parameters.Where(p => !p.Contains("=")).ToList();
+            if (extraParams.Count <= 0) return false;
+            Alert(
+                $" Run Function only support optional parameters.\n\n{string.Join(",", extraParams)} don't have default values.");
+            return true;
+
         }
 
 

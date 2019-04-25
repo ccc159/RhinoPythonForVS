@@ -82,10 +82,17 @@
           <ButtonText>ImportManager</ButtonText>
         </Strings>
       </Button>
+
       <Button guid="guidSendCodePackageContextSet" id="RunFunctionId" priority="0x0100" type="Button">
         <Parent guid="guidSendCodePackageContextSet" id="EditorContextMenuGroup" />
         <Strings>
-          <ButtonText>Run Function In Rhino</ButtonText>
+          <ButtonText>Run Function In Rhino (Beta)</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidSendCodePackageContextSet" id="PrintPropertyId" priority="0x0100" type="Button">
+        <Parent guid="guidSendCodePackageContextSet" id="EditorContextMenuGroup" />
+        <Strings>
+          <ButtonText>Print Property In Rhino (Beta)</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -122,6 +129,7 @@
     <GuidSymbol value="{16554048-73ad-4f0d-921a-d42c45514a41}" name="guidSendCodePackageContextSet">
       <IDSymbol value="4128" name="EditorContextMenuGroup" />
       <IDSymbol value="256" name="RunFunctionId" />
+      <IDSymbol value="257" name="PrintPropertyId" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="ProjectFileEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PythonTemplate.cs" />
     <Compile Include="RunFunctionCommand.cs" />
     <Compile Include="SendCode.cs" />
     <Compile Include="SendCodePackage.cs" />
