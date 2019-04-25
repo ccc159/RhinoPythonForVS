@@ -70,7 +70,7 @@ namespace RhinoPythonForVisualStudio
             if (commandService != null)
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
-                var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
+                var menuItem = new MenuCommand(this.RunFunctionCallback, menuCommandID);
                 commandService.AddCommand(menuItem);
             }
         }
@@ -111,7 +111,7 @@ namespace RhinoPythonForVisualStudio
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
-        private void MenuItemCallback(object sender, EventArgs e)
+        private void RunFunctionCallback(object sender, EventArgs e)
         {
             // get function name, class name, class path
             var funcName = GetFunctionName();
@@ -121,7 +121,7 @@ namespace RhinoPythonForVisualStudio
             var classPath = GetClassPath();
 
             // prepare python file
-            var pythonTemplate = GetPythonTemplateString()
+            var pythonTemplate = PythonTemplate.RunFunctionTemplate
                 .Replace("CLASSPATH", classPath)
                 .Replace("CLASSNAME", className)
                 .Replace("FUNCTIONNAME", funcName);
@@ -185,6 +185,11 @@ namespace RhinoPythonForVisualStudio
             return funcName;
         }
 
+        /// <summary>
+        /// Return matched function name given a text. Null if no match found.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         internal string matchFunctionPatternName(string text)
         {
             Regex rx = new Regex(@"def\s+\w+\(.*\)\:\s*\#*.*", RegexOptions.Compiled);
@@ -204,6 +209,11 @@ namespace RhinoPythonForVisualStudio
             return funcName;
         }
 
+        /// <summary>
+        /// Return matched class name given a text. Null if no match found.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         internal string matchClassPatternName(string text)
         {
             Regex rx = new Regex(@"class\s+\w+\(.*\)\:\s*\#*.*", RegexOptions.Compiled);
@@ -224,7 +234,7 @@ namespace RhinoPythonForVisualStudio
 
 
         /// <summary>
-        /// Get current class name by looking upwards
+        /// Get current class name by looking upwards in the document
         /// </summary>
         internal string GetClassName()
         {
@@ -252,9 +262,13 @@ namespace RhinoPythonForVisualStudio
             }
         }
 
+        /// <summary>
+        /// Return chained class path string for composing python script
+        /// </summary>
+        /// <returns></returns>
         internal string GetClassPath()
         {
-            var absolutePath = GetFilePath();
+            var absolutePath = GetFileAbsolutePath();
             var splits = absolutePath.Split(new String[] { "\\classes\\" }, StringSplitOptions.None);
             var pathes = new List<string>();
             if (splits.Length == 0)
@@ -274,9 +288,13 @@ namespace RhinoPythonForVisualStudio
             return "";
         }
 
-        internal string GetProjectPath()
+        /// <summary>
+        /// Return temp file full path 
+        /// </summary>
+        /// <returns></returns>
+        internal string GetTempFilePath()
         {
-            var absolutePath = GetFilePath();
+            var absolutePath = GetFileAbsolutePath();
             var splits = absolutePath.Split(new String[] { "\\classes\\" }, StringSplitOptions.None);
             if (splits.Length == 0)
             {
@@ -287,8 +305,11 @@ namespace RhinoPythonForVisualStudio
             return splits[0] + "\\" + tempFileName;
         }
 
-
-        internal string GetFilePath()
+        /// <summary>
+        /// Return project absolute path
+        /// </summary>
+        /// <returns></returns>
+        internal string GetFileAbsolutePath()
         {
             // get the top level vs instance object
             var dte = this.ServiceProvider.GetService(typeof(_DTE)) as _DTE;
@@ -296,11 +317,15 @@ namespace RhinoPythonForVisualStudio
             return dte.ActiveDocument.Path;
         }
 
+        /// <summary>
+        /// Save given string to temp file
+        /// </summary>
+        /// <param name="text"></param>
         internal void saveTempFile(string text)
         {
             try
             {
-                System.IO.File.WriteAllText(GetProjectPath(), text);
+                System.IO.File.WriteAllText(GetTempFilePath(), text);
             }
             catch (Exception e)
             {
@@ -309,11 +334,14 @@ namespace RhinoPythonForVisualStudio
             
         }
 
+        /// <summary>
+        /// Delete temp file.
+        /// </summary>
         internal void deleteTempFile()
         {
             try
             {
-                File.Delete(GetProjectPath());
+                File.Delete(GetTempFilePath());
             }
             catch (Exception e)
             {
@@ -321,7 +349,11 @@ namespace RhinoPythonForVisualStudio
             }
         }
 
-
+        /// <summary>
+        /// NEED TO REFINE.
+        /// Function to send code to Rhino.
+        /// </summary>
+        /// <param name="resetEngine"></param>
         private void SendCodeToRhino(bool resetEngine)
         {
             // bypass the function if the code is running
@@ -338,7 +370,7 @@ namespace RhinoPythonForVisualStudio
                
                 // compose the message
                 msgObject objMsg = new msgObject();
-                objMsg.filename = GetProjectPath();
+                objMsg.filename = GetTempFilePath();
                 objMsg.temp = false;
                 objMsg.reset = resetEngine;
                 objMsg.run = true;
@@ -418,6 +450,7 @@ namespace RhinoPythonForVisualStudio
         }
 
         /// <summary>
+        /// NEED TO REFINE.
         /// This function gets the RhinoPython OutputPane, if not, then create a new one.
         /// </summary>
         private IVsOutputWindowPane GetOutputPane()
@@ -442,36 +475,5 @@ namespace RhinoPythonForVisualStudio
             return rhinoPythonPane;
         }
 
-        public string GetPythonTemplateString()
-        {
-            return @"import classes as MOD
-import scriptcontext
-import rhinoscriptsyntax as rs
-
-def main():
-    try:
-        name = MOD.CLASSPATHCLASSNAME.DESCRIPTION
-    except:
-        name = 'CLASSNAME'
-    try:
-        items = MOD.CLASSPATHCLASSNAME.GetInstances('Select the %ss to process' % name)
-        bRedraw = rs.EnableRedraw(False)
-        if not items: return
-        customFunction(items, name)
-    finally:
-        rs.EnableRedraw(bRedraw)
-
-def customFunction(items, name):
-    length = len(items)
-    for i, item in enumerate(items):
-        rs.Prompt('Process %ss %d/%d' % (name, i+1, length))
-        scriptcontext.escape_test()
-        item.FUNCTIONNAME()
-
-
-if __name__ == '__main__':
-    main()
-";
-        }
     }
 }
