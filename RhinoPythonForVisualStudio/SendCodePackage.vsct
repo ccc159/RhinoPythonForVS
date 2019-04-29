@@ -67,13 +67,13 @@
       <Button guid="guidSendCodePackageCmdSet" id="SendCodeId" priority="0x0100" type="Button">
         <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonGroup" />
         <Strings>
-          <ButtonText>SendCode</ButtonText>
+          <ButtonText>[RESET] SendCode</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidSendCodePackageCmdSet" id="SendCodeWRId" priority="0x0101" type="Button">
         <Parent guid="guidSendCodePackageCmdSet" id="RhinoPythonGroup" />
         <Strings>
-          <ButtonText>SendCodeWithoutReset</ButtonText>
+          <ButtonText>SendCode</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidSendCodePackageCmdSet" id="ImportManagerId" priority="0x0102" type="Button">
@@ -93,6 +93,18 @@
         <Parent guid="guidSendCodePackageContextSet" id="EditorContextMenuGroup" />
         <Strings>
           <ButtonText>Print Property In Rhino</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidSendCodePackageContextSet" id="ResetRunFunctionId" priority="0x0100" type="Button">
+        <Parent guid="guidSendCodePackageContextSet" id="EditorContextMenuGroup" />
+        <Strings>
+          <ButtonText>[RESET] Run Function In Rhino</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidSendCodePackageContextSet" id="ResetPrintPropertyId" priority="0x0100" type="Button">
+        <Parent guid="guidSendCodePackageContextSet" id="EditorContextMenuGroup" />
+        <Strings>
+          <ButtonText>[RESET] Print Property In Rhino</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -130,6 +142,8 @@
       <IDSymbol value="4128" name="EditorContextMenuGroup" />
       <IDSymbol value="256" name="RunFunctionId" />
       <IDSymbol value="257" name="PrintPropertyId" />
+      <IDSymbol value="258" name="ResetRunFunctionId" />
+      <IDSymbol value="259" name="ResetPrintPropertyId" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

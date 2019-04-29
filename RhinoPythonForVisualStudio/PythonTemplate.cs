@@ -21,7 +21,7 @@ def main():
     except:
         name = 'CLASSNAME'
     try:
-        items = MOD.CLASSPATHCLASSNAME.GetInstances('Select the %ss to process' % name)
+        items = MOD.CLASSPATHCLASSNAME.GetInstances('Select [%s]s to process' % name)
         bRedraw = rs.EnableRedraw(False)
         if not items: return
         customFunction(items, name)
@@ -31,7 +31,7 @@ def main():
 def customFunction(items, name):
     length = len(items)
     for i, item in enumerate(items):
-        rs.Prompt('Process %ss %d/%d' % (name, i+1, length))
+        rs.Prompt('Processing [%s]s %d/%d' % (name, i+1, length))
         scriptcontext.escape_test()
         item.FUNCTIONNAME()
 
@@ -52,7 +52,7 @@ def main():
     except:
         name = 'CLASSNAME'
     try:
-        items = MOD.CLASSPATHCLASSNAME.GetInstances('Select the %ss to process' % name)
+        items = MOD.CLASSPATHCLASSNAME.GetInstances('Select [%s]s to process' % name)
         bRedraw = rs.EnableRedraw(False)
         if not items: return
         customFunction(items, name)
@@ -62,7 +62,7 @@ def main():
 def customFunction(items, name):
     length = len(items)
     for i, item in enumerate(items):
-        rs.Prompt('Process %ss %d/%d' % (name, i+1, length))
+        rs.Prompt('Processing [%s]s %d/%d' % (name, i+1, length))
         scriptcontext.escape_test()
         print item.FUNCTIONNAME
 

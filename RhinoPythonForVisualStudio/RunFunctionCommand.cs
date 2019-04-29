@@ -36,6 +36,16 @@ namespace RhinoPythonForVisualStudio
         public const int CommandPrintPropertyId = 257;
 
         /// <summary>
+        /// Command Reset and Run Function ID.
+        /// </summary>
+        public const int CommandResetRunFunctionId = 258;
+
+        /// <summary>
+        /// Command Reset and Print Property ID.
+        /// </summary>
+        public const int CommandResetPrintPropertyId = 259;
+
+        /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
         public static readonly Guid CommandSet = new Guid("16554048-73ad-4f0d-921a-d42c45514a41");
@@ -77,14 +87,25 @@ namespace RhinoPythonForVisualStudio
             OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
             {
+                // ====== no reset =====
                 // run function
                 var menuCommandRunFunctionID = new CommandID(CommandSet, CommandRunFunctionId);
-                var menuRunFunctionItem = new MenuCommand((sender, args) => RunFunctionCallback(sender, false), menuCommandRunFunctionID);
+                var menuRunFunctionItem = new MenuCommand((sender, args) => RunFunctionCallback(sender, false, false), menuCommandRunFunctionID);
                 commandService.AddCommand(menuRunFunctionItem);
                 // print property
                 var menuCommandPrintPropertyID = new CommandID(CommandSet, CommandPrintPropertyId);
-                var menuPrintPropertyItem = new MenuCommand((sender, args) => RunFunctionCallback(sender, true), menuCommandPrintPropertyID);
+                var menuPrintPropertyItem = new MenuCommand((sender, args) => RunFunctionCallback(sender, true, false), menuCommandPrintPropertyID);
                 commandService.AddCommand(menuPrintPropertyItem);
+
+                // ====== reset ======
+                // run function
+                var menuCommandResetRunFunctionID = new CommandID(CommandSet, CommandResetRunFunctionId);
+                var menuResetRunFunctionItem = new MenuCommand((sender, args) => RunFunctionCallback(sender, false, true), menuCommandResetRunFunctionID);
+                commandService.AddCommand(menuResetRunFunctionItem);
+                // print property
+                var menuCommandResetPrintPropertyID = new CommandID(CommandSet, CommandResetPrintPropertyId);
+                var menuResetPrintPropertyItem = new MenuCommand((sender, args) => RunFunctionCallback(sender, true, true), menuCommandResetPrintPropertyID);
+                commandService.AddCommand(menuResetPrintPropertyItem);
 
             }
         }
@@ -125,7 +146,7 @@ namespace RhinoPythonForVisualStudio
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
-        private void RunFunctionCallback(object sender, bool isProperty)
+        private void RunFunctionCallback(object sender, bool isProperty, bool reset)
         {
             // get function name, class name, class path
             var funcName = GetFunctionName(isProperty);
@@ -156,7 +177,7 @@ namespace RhinoPythonForVisualStudio
             saveTempFile(pythonTemplate);
 
             // run the file through code listener
-            SendCodeToRhino(true);
+            SendCodeToRhino(reset);
 
         }
 
