@@ -1,22 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-  <Metadata>
-    <Identity Id="RhinoPythonForVisualStudio.Jingcheng CHEN.18c39bae-ecd1-479b-acc8-1a5fa2a9d937" Version="0.0.6" Language="en-US" Publisher="Jingcheng Chen" />
-    <DisplayName>RhinoPythonForVisualStudio</DisplayName>
-    <Description xml:space="preserve">RhinoPythonForVisualStudio allows you to code RhinoPython in Visual Studio.
+    <Metadata>
+        <Identity Id="RhinoPythonForVisualStudio.Jingcheng CHEN.18c39bae-ecd1-479b-acc8-1a5fa2a9d937" Version="0.0.6" Language="en-US" Publisher="Jingcheng Chen" />
+        <DisplayName>RhinoPythonForVisualStudio</DisplayName>
+        <Description xml:space="preserve">RhinoPythonForVisualStudio allows you to code RhinoPython in Visual Studio.
 </Description>
-    <MoreInfo>https://github.com/ccc159/RhinoPythonForVS</MoreInfo>
-    <Icon>logo.png</Icon>
-  </Metadata>
-  <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
-  </Installation>
-  <Dependencies>
-    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-    <Dependency Id="Microsoft.VisualStudio.MPF.14.0" DisplayName="Visual Studio MPF 14.0" d:Source="Installed" Version="[14.0]" />
-  </Dependencies>
-  <Assets>
-    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\RhinoPythonApplication.zip" />
-  </Assets>
+        <MoreInfo>https://github.com/ccc159/RhinoPythonForVS</MoreInfo>
+        <Icon>logo.png</Icon>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Version="[16.0,18.0)" Id="Microsoft.VisualStudio.Community">
+        <ProductArchitecture>x86</ProductArchitecture>
+        </InstallationTarget>
+        <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Community">
+        <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+        <Dependency Id="Microsoft.VisualStudio.MPF.14.0" DisplayName="Visual Studio MPF 14.0" d:Source="Installed" Version="[14.0,]" />
+    </Dependencies>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+        <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\RhinoPythonApplication.zip" />
+    </Assets>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,18.0)" DisplayName="Visual Studio core editor" /> 
+    </Prerequisites>
 </PackageManifest>
